@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>東京観光プラン</title>
+  <meta name="description" content="2026年7月10日から12日の東京観光プラン。地図、移動、乗換、飲食店探しをまとめた旅のしおりです。" />
+  <meta property="og:title" content="東京観光プラン" />
+  <meta property="og:description" content="地図、移動、乗換、飲食店探しをまとめた東京観光プランです。" />
+  <meta name="twitter:title" content="東京観光プラン" />
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #5b6473;
+      --line: #d9e2ef;
+      --accent: #0057b8;
+      --accent-soft: #e8f1ff;
+      --sub: #0f766e;
+      --sub-soft: #e9fbf8;
+      --warn: #8a4b00;
+      --warn-soft: #fff4e8;
+      --shadow: 0 4px 12px rgba(10, 31, 68, 0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-text-size-adjust: 100%;
+    }
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 14px 40px;
+    }
+    .hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f0f6ff 100%);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+    .eyebrow {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 999px;
+      padding: 6px 10px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-size: 28px;
+      line-height: 1.3;
+      margin: 0 0 8px;
+    }
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .info {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+    .info h2, .section h2 {
+      font-size: 18px;
+      margin: 0 0 8px;
+    }
+    .small {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-top: 14px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      flex: 1;
+      min-width: 90px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 13px 10px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+    .legend span::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .l1::before { background: #0057b8; }
+    .l2::before { background: #0f766e; }
+    .l3::before { background: #c2410c; }
+    .mapwrap {
+      position: relative;
+      background: #f7fbff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 10px;
+      overflow: hidden;
+      margin-top: 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+    .map-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 2px 2px 10px;
+    }
+    .map-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .map-badge {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      border: 1px solid #cfe0ff;
+      background: #fff;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 9px;
+    }
+    .map-panel { display: none; }
+    .map-panel.active { display: block; }
+    .map-frame {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border: 0;
+      border-radius: 14px;
+      background: #e6eef7;
+      display: block;
+    }
+    .map-actions, .food-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .map-action, .food-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--accent);
+      text-decoration: none;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 10px;
+    }
+    .map-action.primary {
+      color: #fff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .map-note {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .map-note span {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 9px;
+      text-align: center;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .summary-card {
+      background: var(--accent-soft);
+      border: 1px solid #cfe0ff;
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+    .summary-card h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+    .summary-card p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .timeline {
+      margin-top: 14px;
+      display: grid;
+      gap: 12px;
+    }
+    .spot {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      background: #fff;
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .time {
+      flex: 0 0 72px;
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 16px;
+      line-height: 1.3;
+    }
+    .content { flex: 1; }
+    .content h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+    .pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+    .train { background: var(--accent-soft); color: var(--accent); border-color: #cfe0ff; }
+    .walk { background: #eef2ff; color: #4338ca; border-color: #c7d2fe; }
+    .taxi { background: var(--warn-soft); color: var(--warn); border-color: #ffd8b3; }
+    .rest { background: var(--sub-soft); color: var(--sub); border-color: #bfeee8; }
+    .desc {
+      font-size: 15px;
+      margin: 0 0 8px;
+      color: var(--text);
+    }
+    .meta {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 4px 0;
+    }
+    .note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+    }
+    .toggle {
+      margin-top: 8px;
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #f8fbff;
+      color: var(--accent);
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 11px 12px;
+      font-size: 15px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+    }
+    .route-detail {
+      display: none;
+      margin-top: 8px;
+      padding: 12px;
+      border-radius: 12px;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      font-size: 14px;
+      color: var(--text);
+    }
+    .route-detail.open { display: block; }
+    .route-detail ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+    .line-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 9px 0 7px;
+    }
+    .line-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid currentColor;
+      background: #fff;
+      color: var(--line-color);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.2;
+      padding: 5px 9px;
+      white-space: nowrap;
+    }
+    .line-badge::before {
+      content: attr(data-icon);
+      display: inline-grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: var(--line-color);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .line-badge[data-icon="JR"]::before { width: 24px; }
+    .line-hanzomon { --line-color: #8f76d6; }
+    .line-ginza { --line-color: #f39700; }
+    .line-oedo { --line-color: #b6007a; }
+    .line-tozai { --line-color: #00a7db; }
+    .line-asakusa { --line-color: #e85298; }
+    .line-marunouchi { --line-color: #e60012; }
+    .line-yurikamome { --line-color: #0066b3; }
+    .line-jr { --line-color: #007ac0; }
+    .move-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 9px 0;
+    }
+    .move-time {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 8px 9px;
+      min-height: 48px;
+    }
+    .move-time b {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.3;
+    }
+    .move-time span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .nav-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    .nav-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      border: 1px solid #cfe0ff;
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      min-height: 40px;
+      padding: 8px 11px;
+    }
+    .appendix-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .appendix-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 14px;
+    }
+    .appendix-card h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+    .appendix-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .transfer-note {
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .transfer-note span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .sticky-nav {
+      position: sticky;
+      bottom: 10px;
+      z-index: 20;
+      margin-top: 18px;
+    }
+    .sticky-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 8px;
+      box-shadow: var(--shadow);
+    }
+    .sticky-inner a {
+      text-decoration: none;
+      color: var(--accent);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 4px;
+      border-radius: 12px;
+      background: #f8fbff;
+    }
+    .foot {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .help-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    @media (max-width: 560px) {
+      .grid2 { grid-template-columns: 1fr; }
+      h1 { font-size: 24px; }
+      .time { flex-basis: 62px; font-size: 15px; }
+      .content h3 { font-size: 18px; }
+      .tab-btn { font-size: 16px; }
+      .mapwrap { padding: 8px; }
+      .map-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .map-note, .map-actions, .food-links, .move-summary { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero" id="top">
+      <div class="eyebrow">携帯で見やすい旅のしおり</div>
+      <h1>東京旅行しおり<br>2026年7月10日（金）〜12日（日）</h1>
+      <p class="lead">4名／宿泊：パークアクシス青山。<br>電車7割・タクシー3割くらいを目安に、歩行負担が大きい区間だけタクシーへ切り替える前提で整理しています。</p>
+
+      <div class="grid2">
+        <div class="info">
+          <h2>見方</h2>
+          <ul class="help-list">
+            <li>上のタブで1〜3日目を切り替え</li>
+            <li>各スポットの「路線・駅名を見る」をタップ</li>
+            <li>駅出口・乗る路線・降りる駅がすぐ分かります</li>
+          </ul>
+        </div>
+        <div class="info">
+          <h2>無理しない目安</h2>
+          <ul class="help-list">
+            <li>東京タワー最寄駅〜現地</li>
+            <li>九段下駅〜靖国神社</li>
+            <li>錦糸町〜お台場</li>
+            <li>疲れたらこの3区間はタクシーへ</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="map-section">
+      <h2>Google Mapsで見る旅程マップ</h2>
+      <p class="small">タブを切り替えると、その日の移動範囲をGoogle Mapsで確認できます。詳細な徒歩導線や現在地からの行き方は「Google Mapsで開く」から確認してください。</p>
+      <div class="tabs" role="tablist" aria-label="日ごとのタブ">
+        <button class="tab-btn active" data-day="day1" aria-selected="true">1日目</button>
+        <button class="tab-btn" data-day="day2" aria-selected="false">2日目</button>
+        <button class="tab-btn" data-day="day3" aria-selected="false">3日目</button>
+      </div>
+
+      <div class="mapwrap">
+        <div class="map-head">
+          <p class="map-title">パークアクシス青山・観光地・戻り道の位置関係</p>
+          <span class="map-badge">Google Maps</span>
+        </div>
+        <div class="map-panel active" data-day="day1">
+          <iframe class="map-frame" title="1日目のGoogle Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?f=d&amp;source=s_d&amp;saddr=%E3%83%91%E3%83%BC%E3%82%AF%E3%82%A2%E3%82%AF%E3%82%B7%E3%82%B9%E9%9D%92%E5%B1%B1&amp;daddr=%E6%B8%8B%E8%B0%B7%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%B3%E3%83%96%E3%83%AB%E4%BA%A4%E5%B7%AE%E7%82%B9%20to:%E6%9D%B1%E4%BA%AC%E3%82%BF%E3%83%AF%E3%83%BC%20to:%E3%83%91%E3%83%BC%E3%82%AF%E3%82%A2%E3%82%AF%E3%82%B7%E3%82%B9%E9%9D%92%E5%B1%B1&amp;hl=ja&amp;output=embed"></iframe>
+          <div class="map-actions">
+            <a class="map-action primary" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=パークアクシス青山&destination=パークアクシス青山&waypoints=渋谷スクランブル交差点%7C東京タワー&travelmode=transit">Google Mapsで開く</a>
+            <a class="map-action" target="_blank" rel="noopener" href="https://transit.yahoo.co.jp/search/result?from=%E9%9D%92%E5%B1%B1%E4%B8%80%E4%B8%81%E7%9B%AE&to=%E6%B8%8B%E8%B0%B7">Yahoo乗換</a>
+            <a class="map-action" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E3%82%AB%E3%83%95%E3%82%A7%20%E9%9D%92%E5%B1%B1%E4%B8%80%E4%B8%81%E7%9B%AE">周辺カフェ</a>
+          </div>
+        </div>
+        <div class="map-panel" data-day="day2">
+          <iframe class="map-frame" title="2日目のGoogle Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?f=d&amp;source=s_d&amp;saddr=%E3%83%91%E3%83%BC%E3%82%AF%E3%82%A2%E3%82%AF%E3%82%B7%E3%82%B9%E9%9D%92%E5%B1%B1&amp;daddr=%E9%9D%96%E5%9B%BD%E7%A5%9E%E7%A4%BE%20to:%E6%B5%85%E8%8D%89%E9%9B%B7%E9%96%80%20to:%E9%8C%A6%E7%B3%B8%E7%94%BA%E9%A7%85%20to:%E5%8F%B0%E5%A0%B4%E9%A7%85%20to:%E3%83%91%E3%83%BC%E3%82%AF%E3%82%A2%E3%82%AF%E3%82%B7%E3%82%B9%E9%9D%92%E5%B1%B1&amp;hl=ja&amp;output=embed"></iframe>
+          <div class="map-actions">
+            <a class="map-action primary" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=パークアクシス青山&destination=パークアクシス青山&waypoints=靖国神社%7C浅草雷門%7C錦糸町駅%7C台場駅&travelmode=transit">Google Mapsで開く</a>
+            <a class="map-action" target="_blank" rel="noopener" href="https://transit.yahoo.co.jp/search/result?from=%E9%9D%92%E5%B1%B1%E4%B8%80%E4%B8%81%E7%9B%AE&to=%E4%B9%9D%E6%AE%B5%E4%B8%8B">Yahoo乗換</a>
+            <a class="map-action" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E3%82%AB%E3%83%95%E3%82%A7%20%E6%B5%85%E8%8D%89%20%E9%8C%A6%E7%B3%B8%E7%94%BA">周辺カフェ</a>
+          </div>
+        </div>
+        <div class="map-panel" data-day="day3">
+          <iframe class="map-frame" title="3日目のGoogle Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?f=d&amp;source=s_d&amp;saddr=%E3%83%91%E3%83%BC%E3%82%AF%E3%82%A2%E3%82%AF%E3%82%B7%E3%82%B9%E9%9D%92%E5%B1%B1&amp;daddr=%E9%8A%80%E5%BA%A7%E5%9B%9B%E4%B8%81%E7%9B%AE%E4%BA%A4%E5%B7%AE%E7%82%B9%20to:%E6%9D%B1%E4%BA%AC%E9%A7%85%20to:%E6%96%B0%E5%B0%8F%E5%B2%A9%E9%A7%85%20to:%E6%9D%B1%E4%BA%AC%E9%A7%85&amp;hl=ja&amp;output=embed"></iframe>
+          <div class="map-actions">
+            <a class="map-action primary" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=パークアクシス青山&destination=東京駅&waypoints=銀座四丁目交差点%7C新小岩駅&travelmode=transit">Google Mapsで開く</a>
+            <a class="map-action" target="_blank" rel="noopener" href="https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E4%BA%AC&to=%E6%96%B0%E5%B0%8F%E5%B2%A9">Yahoo乗換</a>
+            <a class="map-action" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E9%A3%B2%E9%A3%9F%E5%BA%97%20%E6%96%B0%E5%B0%8F%E5%B2%A9%E9%A7%85">周辺グルメ</a>
+          </div>
+        </div>
+        <div class="map-note" aria-label="地図の見方">
+          <span>Google Mapsで詳細確認</span>
+          <span>Yahoo乗換で時刻確認</span>
+          <span>宿へ戻るルートも含む</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="plan-section">
+      <h2>日ごとのプラン</h2>
+      <p class="small">時間は目安です。暑さ・体調に応じて、途中で休憩やタクシー切替をしてください。</p>
+
+      <div id="day1" class="tab-panel active">
+        <div class="summary-card">
+          <h3>1日目｜東京駅 → パークアクシス青山 → 渋谷 → 東京タワー</h3>
+          <p>初日は到着日なので、東京駅からパークアクシス青山はタクシー。観光は渋谷スクランブル交差点と東京タワーに絞って、無理なく回る設計です。</p>
+          <div class="transfer-note" aria-label="1日目に乗る電車">
+            <span><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span> 青山一丁目 → 渋谷</span>
+            <span><span class="line-badge line-oedo" data-icon="E">大江戸線</span> 青山一丁目 → 赤羽橋 → 宿へ戻る</span>
+          </div>
+        </div>
+        <div class="timeline">
+          <article class="spot">
+            <div class="row">
+              <div class="time">12:00<br>〜12:45</div>
+              <div class="content">
+                <h3>東京駅 → パークアクシス青山</h3>
+                <div class="pills"><span class="pill taxi">タクシー</span><span class="pill rest">荷物あり</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約25〜35分</b><span>乗換＋徒歩あり</span></div>
+                  <div class="move-time"><b>タクシー 約15〜25分</b><span>荷物ありならおすすめ</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=パークアクシス青山&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">到着直後は移動負担を減らすため、ここはタクシーが安全です。宿で休憩してから観光へ。</p>
+                <p class="meta">おすすめ：東京駅八重洲側または丸の内側からタクシー利用</p>
+                <p class="note">パークアクシス青山は青山一丁目駅周辺です。入口やタクシー降車位置はGoogle Mapsで最終確認が安心です。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">14:00<br>〜15:10</div>
+              <div class="content">
+                <h3>パークアクシス青山 → 渋谷スクランブル交差点</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill walk">駅近</span></div>
+                <div class="line-badges"><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span><span class="line-badge line-ginza" data-icon="G">銀座線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約10〜15分</b><span>青山一丁目駅から乗換なし</span></div>
+                  <div class="move-time"><b>タクシー 約15〜25分</b><span>渋滞で前後あり</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=渋谷スクランブル交差点&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">東京観光の定番。交差点の大きさや人の流れを見るだけでも楽しく、短時間でも満足度が高い場所です。</p>
+                <p class="meta">最寄り駅：渋谷駅</p>
+                <p class="meta">いちばん分かりやすい出口：<strong>ハチ公口</strong>（またはA8付近）</p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  青山一丁目駅 → 渋谷駅<br>
+                  <ul>
+                    <li><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span> または <span class="line-badge line-ginza" data-icon="G">銀座線</span></li>
+                    <li>乗換なし</li>
+                    <li>降りたら「ハチ公口」へ進むと分かりやすいです</li>
+                  </ul>
+                </div>
+                <p class="note">渋谷駅は混みやすいので、駅員さんに「ハチ公口はどちらですか？」と聞くのが一番確実です。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">15:10<br>〜16:40</div>
+              <div class="content">
+                <h3>渋谷 → 東京タワー</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill taxi">最後だけタクシー可</span></div>
+                <div class="line-badges"><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span><span class="line-badge line-oedo" data-icon="E">大江戸線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約25〜35分</b><span>乗換＋駅から徒歩あり</span></div>
+                  <div class="move-time"><b>タクシー 約20〜30分</b><span>歩きがしんどい時向き</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=東京タワー&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">赤い鉄塔が近くで見えると東京らしさを感じられます。展望台まで上がらなくても、外観を見るだけで十分見応えがあります。</p>
+                <p class="meta">最寄り駅：赤羽橋駅（都営大江戸線）</p>
+                <p class="meta">分かりやすい出口：<strong>赤羽橋口</strong> 方面</p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  渋谷駅 → 青山一丁目駅 → 赤羽橋駅 → 東京タワー<br>
+                  <ul>
+                    <li>渋谷駅 → 青山一丁目駅：<span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span></li>
+                    <li>青山一丁目駅 → 赤羽橋駅：<span class="line-badge line-oedo" data-icon="E">大江戸線</span></li>
+                    <li>赤羽橋駅から現地まで歩行がしんどければ短距離タクシーに切替</li>
+                  </ul>
+                </div>
+                <p class="note">駅から現地までの最後の数分がしんどい場合は、ここは無理せずタクシーがおすすめです。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">16:40<br>〜17:10</div>
+              <div class="content">
+                <h3>東京タワー → パークアクシス青山</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill taxi">疲れたらタクシー</span></div>
+                <div class="line-badges"><span class="line-badge line-oedo" data-icon="E">大江戸線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約20〜30分</b><span>赤羽橋駅まで歩きあり</span></div>
+                  <div class="move-time"><b>タクシー 約15〜25分</b><span>疲れたらこちら</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=パークアクシス青山&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">東京タワー観光後は、赤羽橋駅から大江戸線で青山一丁目へ戻る流れにしておくと分かりやすいです。</p>
+                <p class="meta">戻り先：パークアクシス青山</p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>宿へ戻るルート</strong><br>
+                  赤羽橋駅 → 青山一丁目駅<br>
+                  <ul>
+                    <li><span class="line-badge line-oedo" data-icon="E">大江戸線</span></li>
+                    <li>乗換なし</li>
+                    <li>赤羽橋駅まで歩くのが大変なら、東京タワーからパークアクシス青山までタクシーでもOK</li>
+                  </ul>
+                </div>
+                <p class="note">地図ではパークアクシス青山へ戻る導線も含めています。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div id="day2" class="tab-panel">
+        <div class="summary-card" style="background:#e9fbf8;border-color:#bfeee8;">
+          <h3>2日目｜靖国神社 → 浅草雷門 → 錦糸町からスカイツリー鑑賞 → お台場 → パークアクシス青山</h3>
+          <p>この日は東京の代表的な名所をまとめて巡る日。スカイツリーは近すぎる押上ではなく、錦糸町側から全体を見やすくする流れに変更しています。</p>
+          <div class="transfer-note" aria-label="2日目に乗る電車">
+            <span><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span> 青山一丁目 → 九段下、押上 → 錦糸町</span>
+            <span><span class="line-badge line-ginza" data-icon="G">銀座線</span> 日本橋 → 浅草、新橋 → 青山一丁目</span>
+            <span><span class="line-badge line-yurikamome" data-icon="U">ゆりかもめ</span> 新橋 → 台場 → 新橋</span>
+          </div>
+        </div>
+        <div class="timeline">
+          <article class="spot">
+            <div class="row">
+              <div class="time">09:35<br>〜10:45</div>
+              <div class="content">
+                <h3>パークアクシス青山 → 靖国神社</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill taxi">駅からタクシー可</span></div>
+                <div class="line-badges"><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約20〜30分</b><span>駅から徒歩約5分</span></div>
+                  <div class="move-time"><b>タクシー 約15〜25分</b><span>入口近くまで行ける</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=靖国神社&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">大きな鳥居と落ち着いた境内が印象的。参道を全部歩かなくても、入口周辺だけで雰囲気をしっかり感じられます。</p>
+                <p class="meta">最寄り駅：九段下駅</p>
+                <p class="meta">おすすめ出口：<strong>1番出口</strong></p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  青山一丁目駅 → 九段下駅 → 靖国神社<br>
+                  <ul>
+                    <li><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span></li>
+                    <li>乗換なし</li>
+                    <li>九段下駅「1番出口」から徒歩約5分目安</li>
+                    <li>ほとんど歩けない場合は、駅前から短距離タクシーへ</li>
+                  </ul>
+                </div>
+                <p class="note">この区間は「歩けるなら徒歩」「厳しければ駅前からタクシー」がちょうどよいです。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">11:00<br>〜13:30</div>
+              <div class="content">
+                <h3>靖国神社 → 浅草・雷門</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill walk">駅近</span><span class="pill rest">昼食</span></div>
+                <div class="line-badges"><span class="line-badge line-tozai" data-icon="T">東西線</span><span class="line-badge line-ginza" data-icon="G">銀座線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約25〜35分</b><span>乗換1回＋駅近</span></div>
+                  <div class="move-time"><b>タクシー 約20〜35分</b><span>混雑で前後あり</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=浅草雷門&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">雷門の大提灯は写真映え抜群。仲見世を全部歩かなくても、入口付近を見るだけで浅草らしさを十分感じられます。</p>
+                <p class="meta">最寄り駅：浅草駅</p>
+                <p class="meta">おすすめ出口：<strong>銀座線なら1番出口</strong>／<strong>都営浅草線ならA4出口</strong></p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  九段下駅 → 日本橋駅 → 浅草駅<br>
+                  <ul>
+                    <li>九段下駅 → 日本橋駅：<span class="line-badge line-tozai" data-icon="T">東西線</span></li>
+                    <li>日本橋駅 → 浅草駅：<span class="line-badge line-ginza" data-icon="G">銀座線</span></li>
+                    <li>浅草駅に着いたら、雷門へ行くなら1番出口が分かりやすいです</li>
+                  </ul>
+                </div>
+                <p class="note">昼食は雷門近くの1階席やエレベーターありの店舗を選ぶと安心です。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">13:30<br>〜14:30</div>
+              <div class="content">
+                <h3>浅草・雷門 → 錦糸町からスカイツリー鑑賞</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill walk">駅近で見やすい</span></div>
+                <div class="line-badges"><span class="line-badge line-asakusa" data-icon="A">都営浅草線</span><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約15〜25分</b><span>押上乗換＋北口方面</span></div>
+                  <div class="move-time"><b>タクシー 約10〜20分</b><span>浅草から短め</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=錦糸町駅北口&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">スカイツリーの真下まで行くと近すぎて全体が見えにくいので、錦糸町側から少し離れて眺める形に変更。塔全体が視界に入りやすく、写真も撮りやすいです。</p>
+                <p class="meta">最寄り駅：錦糸町駅</p>
+                <p class="meta">見やすい方向：<strong>北口〜錦糸公園方面</strong></p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  浅草駅 → 押上駅 → 錦糸町駅<br>
+                  <ul>
+                    <li>浅草駅 → 押上駅：<span class="line-badge line-asakusa" data-icon="A">都営浅草線</span></li>
+                    <li>押上駅 → 錦糸町駅：<span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span></li>
+                    <li>錦糸町駅は北口方面へ。スカイツリーを少し離れて見られます</li>
+                  </ul>
+                </div>
+                <p class="note">近くで迫力を見るより、全体を見たい場合は錦糸町側のほうが向いています。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">14:30<br>〜17:00</div>
+              <div class="content">
+                <h3>錦糸町 → お台場</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill taxi">疲れたらタクシー</span></div>
+                <div class="line-badges"><span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span><span class="line-badge line-ginza" data-icon="G">銀座線</span><span class="line-badge line-yurikamome" data-icon="U">ゆりかもめ</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約45〜60分</b><span>乗換2回で長め</span></div>
+                  <div class="move-time"><b>タクシー 約30〜45分</b><span>疲れたら切替候補</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=台場駅&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">海・レインボーブリッジ・開けた景色が魅力。屋内で休める施設も多く、座って景色を楽しみやすいエリアです。</p>
+                <p class="meta">最寄り駅：台場駅（ゆりかもめ）</p>
+                <p class="meta">出口目安：<strong>改札を出てすぐ</strong>（施設に合わせて移動）</p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  錦糸町駅 → 表参道駅 → 新橋駅 → 台場駅<br>
+                  <ul>
+                    <li>錦糸町駅 → 表参道駅：<span class="line-badge line-hanzomon" data-icon="Z">半蔵門線</span></li>
+                    <li>表参道駅 → 新橋駅：<span class="line-badge line-ginza" data-icon="G">銀座線</span></li>
+                    <li>新橋駅 → 台場駅：<span class="line-badge line-yurikamome" data-icon="U">ゆりかもめ</span></li>
+                    <li>乗換あり。疲れていたらこの区間だけタクシーに変更でOK</li>
+                  </ul>
+                </div>
+                <p class="note">この日で一番負担が出やすい区間です。暑さや疲れを見て、錦糸町→お台場だけタクシーにしても十分良いプランです。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">17:00<br>〜18:00</div>
+              <div class="content">
+                <h3>お台場 → パークアクシス青山</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill taxi">夜はタクシー可</span></div>
+                <div class="line-badges"><span class="line-badge line-yurikamome" data-icon="U">ゆりかもめ</span><span class="line-badge line-ginza" data-icon="G">銀座線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約40〜55分</b><span>新橋乗換＋徒歩あり</span></div>
+                  <div class="move-time"><b>タクシー 約25〜40分</b><span>夜はかなり楽</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=パークアクシス青山&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">観光後は台場駅から新橋へ出て、銀座線で青山一丁目へ戻ります。疲れていたら、お台場から宿までタクシーに切り替える想定です。</p>
+                <p class="meta">戻り先：パークアクシス青山</p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>宿へ戻るルート</strong><br>
+                  台場駅 → 新橋駅 → 青山一丁目駅<br>
+                  <ul>
+                    <li>台場駅 → 新橋駅：<span class="line-badge line-yurikamome" data-icon="U">ゆりかもめ</span></li>
+                    <li>新橋駅 → 青山一丁目駅：<span class="line-badge line-ginza" data-icon="G">銀座線</span></li>
+                    <li>乗換1回。夜で疲れていたらタクシー優先でOK</li>
+                  </ul>
+                </div>
+                <p class="note">地図ではお台場からパークアクシス青山へ戻る導線も含めています。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div id="day3" class="tab-panel">
+        <div class="summary-card" style="background:#fff1ea;border-color:#ffd3c0;">
+          <h3>3日目｜銀座 → 東京駅 → 新小岩 → 東京駅</h3>
+          <p>最終日は銀座を少し見てから、新小岩を必ず訪問。その後は東京駅へ戻り、余裕を持って新幹線へ向かいます。</p>
+          <div class="transfer-note" aria-label="3日目に乗る電車">
+            <span><span class="line-badge line-ginza" data-icon="G">銀座線</span> 青山一丁目 → 銀座</span>
+            <span><span class="line-badge line-marunouchi" data-icon="M">丸ノ内線</span> 銀座 → 東京</span>
+            <span><span class="line-badge line-jr" data-icon="JR">総武快速線</span> 東京 → 新小岩 → 東京</span>
+          </div>
+        </div>
+        <div class="timeline">
+          <article class="spot">
+            <div class="row">
+              <div class="time">10:10<br>〜11:00</div>
+              <div class="content">
+                <h3>パークアクシス青山 → 銀座</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill walk">駅近</span></div>
+                <div class="line-badges"><span class="line-badge line-ginza" data-icon="G">銀座線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約15〜25分</b><span>乗換なし＋駅近</span></div>
+                  <div class="move-time"><b>タクシー 約15〜25分</b><span>荷物があれば楽</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=銀座四丁目交差点&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">大人っぽい東京の街並みを短時間で楽しめるエリア。和光の時計台付近を見るだけでも「銀座に来た感」があります。</p>
+                <p class="meta">最寄り駅：銀座駅</p>
+                <p class="meta">おすすめ出口：<strong>A9 または A10</strong>（和光付近）</p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  青山一丁目駅 → 銀座駅<br>
+                  <ul>
+                    <li><span class="line-badge line-ginza" data-icon="G">銀座線</span></li>
+                    <li>乗換なし</li>
+                    <li>和光方面を見るならA9/A10が分かりやすいです</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">11:00<br>〜11:40</div>
+              <div class="content">
+                <h3>銀座 → 東京駅（荷物預け）</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill rest">荷物預け</span></div>
+                <div class="line-badges"><span class="line-badge line-marunouchi" data-icon="M">丸ノ内線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約10〜15分</b><span>丸ノ内線で近い</span></div>
+                  <div class="move-time"><b>タクシー 約10〜20分</b><span>荷物が多い時向き</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=東京駅&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">東京駅で荷物を預けてから新小岩へ向かうと楽です。最終日は早めに東京駅へ戻る前提にしておくと安心です。</p>
+                <p class="meta">おすすめ：東京駅でコインロッカーまたは手荷物預かりを利用</p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  銀座駅 → 東京駅<br>
+                  <ul>
+                    <li><span class="line-badge line-marunouchi" data-icon="M">丸ノ内線</span></li>
+                    <li>乗換なし</li>
+                    <li>荷物が多い場合は、ここだけタクシーでもOKです</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">11:45<br>〜13:15</div>
+              <div class="content">
+                <h3>東京駅 → 新小岩駅周辺（必須）</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill rest">昼食</span></div>
+                <div class="line-badges"><span class="line-badge line-jr" data-icon="JR">総武快速線</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約15〜25分</b><span>東京駅から乗換なし</span></div>
+                  <div class="move-time"><b>タクシー 約30〜45分</b><span>距離があるため電車優先</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=新小岩駅&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">今回の必須スポット。東京駅から直通で行きやすく、駅周辺で短時間の滞在と昼食を組み込みやすいです。</p>
+                <p class="meta">最寄り駅：新小岩駅</p>
+                <p class="meta">出口目安：<strong>南口</strong>を基本にすると駅前を見やすいです</p>
+                <button class="toggle" type="button">路線・駅名を見る</button>
+                <div class="route-detail">
+                  <strong>おすすめルート</strong><br>
+                  東京駅 → 新小岩駅<br>
+                  <ul>
+                    <li><span class="line-badge line-jr" data-icon="JR">総武快速線</span></li>
+                    <li>乗換なし</li>
+                    <li>帰りも同じく、新小岩駅 → 東京駅で戻れます</li>
+                  </ul>
+                </div>
+                <p class="note">昼食は駅近のお店を選ぶと、戻りの移動が楽です。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="spot">
+            <div class="row">
+              <div class="time">13:30<br>〜16:00</div>
+              <div class="content">
+                <h3>東京駅で休憩・お土産 → 新幹線</h3>
+                <div class="pills"><span class="pill train">電車</span><span class="pill rest">帰路</span></div>
+                <div class="move-summary">
+                  <div class="move-time"><b>電車 約15〜25分</b><span>新小岩から東京へ戻る</span></div>
+                  <div class="move-time"><b>タクシー 約30〜45分</b><span>時間に余裕が必要</span></div>
+                </div>
+                <div class="nav-actions"><a class="nav-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=東京駅&travelmode=transit">現在地から案内</a></div>
+                <p class="desc">新小岩から戻ったら、東京駅で少し休憩。お土産購入やトイレ休憩を済ませて、時間に余裕をもって新幹線へ向かいます。</p>
+                <p class="meta">新幹線乗車目安：16:00ごろ</p>
+                <p class="note">東京駅は広いので、15:30ごろには改札近くにいると安心です。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tips-section">
+      <h2>飲食店・カフェ探し付録</h2>
+      <p class="small">当日の混雑や営業時間が変わりやすいので、固定のお店を決め打ちせず、Google Mapsで「評価・現在営業中・近い順」を見ながら選べる付録にしています。</p>
+      <div class="appendix-grid">
+        <article class="appendix-card">
+          <h3>1日目｜青山・渋谷・東京タワー</h3>
+          <p>パークアクシス青山周辺で休憩、渋谷でカフェ、東京タワー周辺で軽食を探す時用。</p>
+          <div class="food-links">
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E3%82%AB%E3%83%95%E3%82%A7%20%E9%9D%92%E5%B1%B1%E4%B8%80%E4%B8%81%E7%9B%AE">青山カフェ</a>
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E3%82%AB%E3%83%95%E3%82%A7%20%E6%B8%8B%E8%B0%B7%E9%A7%85">渋谷カフェ</a>
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E9%A3%B2%E9%A3%9F%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E3%82%BF%E3%83%AF%E3%83%BC">東京タワー周辺</a>
+          </div>
+        </article>
+        <article class="appendix-card">
+          <h3>2日目｜浅草・錦糸町・お台場</h3>
+          <p>昼食は浅草、休憩は錦糸町、夕方はお台場の商業施設内が選びやすいです。</p>
+          <div class="food-links">
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E3%83%A9%E3%83%B3%E3%83%81%20%E6%B5%85%E8%8D%89%20%E9%9B%B7%E9%96%80">浅草ランチ</a>
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E3%82%AB%E3%83%95%E3%82%A7%20%E9%8C%A6%E7%B3%B8%E7%94%BA%E9%A7%85%20%E5%8C%97%E5%8F%A3">錦糸町カフェ</a>
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E9%A3%B2%E9%A3%9F%E5%BA%97%20%E3%81%8A%E5%8F%B0%E5%A0%B4">お台場グルメ</a>
+          </div>
+        </article>
+        <article class="appendix-card">
+          <h3>3日目｜銀座・東京駅・新小岩</h3>
+          <p>銀座は短時間のカフェ、東京駅は駅ナカ、新小岩は駅前ランチを探す用です。</p>
+          <div class="food-links">
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E3%82%AB%E3%83%95%E3%82%A7%20%E9%8A%80%E5%BA%A7%E5%9B%9B%E4%B8%81%E7%9B%AE">銀座カフェ</a>
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E9%A3%B2%E9%A3%9F%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%A7%85%20%E9%A7%85%E3%83%8A%E3%82%AB">東京駅駅ナカ</a>
+            <a class="food-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/%E4%BA%BA%E6%B0%97%20%E3%83%A9%E3%83%B3%E3%83%81%20%E6%96%B0%E5%B0%8F%E5%B2%A9%E9%A7%85">新小岩ランチ</a>
+          </div>
+        </article>
+      </div>
+      <p class="foot">探す時は、Google Mapsで「営業中」「評価4.0以上」「徒歩10分以内」を見ると外しにくいです。</p>
+    </section>
+
+    <div class="sticky-nav">
+      <div class="sticky-inner">
+        <a href="#top">上へ</a>
+        <a href="#map-section">地図</a>
+        <a href="#plan-section">日程</a>
+        <a href="#tips-section">メモ</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+    const mapPanels = document.querySelectorAll('.map-panel');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const day = btn.dataset.day;
+        buttons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        panels.forEach(panel => panel.classList.remove('active'));
+        document.getElementById(day).classList.add('active');
+
+        mapPanels.forEach(panel => {
+          panel.classList.toggle('active', panel.dataset.day === day);
+        });
+
+      });
+    });
+
+    document.querySelectorAll('.toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const detail = toggle.nextElementSibling;
+        const isOpen = detail.classList.contains('open');
+        detail.classList.toggle('open');
+        toggle.textContent = isOpen ? '路線・駅名を見る' : '路線・駅名を閉じる';
+      });
+    });
+  </script>
+</body>
+</html>
